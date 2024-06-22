@@ -4,9 +4,10 @@ require_once ('conn.php');
 
 $conn = connectToDatabase();
 
-function getRecipe($conn, $RName)
+function getRecipe($conn, $RName, $Uid)
 {
-    $sql = "SELECT * FROM recipe WHERE RName LIKE '%$RName%'";
+    $sql = "SELECT recipe.*, user.Username, user.Iconid FROM recipe, user WHERE recipe.Uid = user.Uid AND recipe.Uid != '$Uid' AND recipe.RName LIKE '%$RName%';
+";
     $result = mysqli_query($conn, $sql);
 
     if ($result->num_rows > 0) {
@@ -22,7 +23,8 @@ function getRecipe($conn, $RName)
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['RName'])) {
         $RName = $_GET['RName'];
-        $response = getRecipe($conn, $RName);
+        $Uid = $_GET["Uid"];
+        $response = getRecipe($conn, $RName, $Uid);
     } else {
         $response = array('status' => 'error', 'message' => 'Failed to GET');
     }

@@ -13,7 +13,7 @@ function isUserFollowed($conn, $Uid, $Followid)
     if ($result) {
         $response = array("status" => "success", "message" => "You already follow user");
     } else {
-        $response = array("status" => "success", "message" => "You didn't follow user");
+        $response = array("status" => "error", "message" => "You didn't follow user");
     }
     return $response;
 }

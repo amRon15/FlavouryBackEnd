@@ -12,8 +12,9 @@ function prepareData($data)
 function createRecipe($conn, $Uid, $RName, $Category, $CookTime, $Description, $Serving, $Imgid)
 {
 
-    $sql = "INSERT INTO recipe (Uid, RName, Category, CookTime, Description, CreateDate, Likes, Serving, Imgid)
+    $sql = "INSERT INTO recipe (Uid, RName, Category, CookTime, Description, CreateDate, Likes, Serving, Imgid) 
     VALUES ('$Uid', '$RName', '$Category', '$CookTime', '$Description', current_timestamp(), '0', '$Serving', '$Imgid')";
+    
     $result = mysqli_query($conn, $sql);
 
     if ($result) {

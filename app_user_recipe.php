@@ -7,7 +7,7 @@ $conn = connectToDatabase();
 
 function getMyUserRecipe($conn, $Uid)
 {
-    $sql = "SELECT * FROM recipe, recipestep, recipeingredient WHERE recipe.Uid='$Uid' AND recipestep.Rid = recipe.Rid AND recipeingredient.Rid = recipe.Rid";
+    $sql = "SELECT * FROM recipe WHERE recipe.Uid='$Uid'";
     $result = mysqli_query($conn, $sql);
 
     if ($result->num_rows > 0) {
@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } else {
     $response = array('status' => 'error', 'message' => 'GET method failed');
 }
+
+$conn -> close();
 
 header('Content-Type: application/json');
 

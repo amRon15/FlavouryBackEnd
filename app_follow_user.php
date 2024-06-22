@@ -7,6 +7,8 @@ function followUser($conn, $Uid, $Followid)
 {
     $sql = "INSERT INTO userfollow VALUES('$Uid', '$Followid')";
     $result = mysqli_query($conn, $sql);
+
+    mysqli_free_result( $result );
     
     $conn ->close();
     

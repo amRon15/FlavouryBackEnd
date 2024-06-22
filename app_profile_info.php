@@ -6,7 +6,11 @@ $conn = connectToDatabase();
 
 function getUserInfo($conn, $Uid)
 {
-    $sql = "SELECT COUNT(*) FROM recipe, userfollow WHERE Uid='$Uid'";
+    $sql = "SELECT 
+            (SELECT COUNT(Rid) from recipe WHERE Uid = '$Uid') AS recipeNum, 
+            (SELECT COUNT(*) from userfollow WHERE Uid = '$Uid') AS followingNum, 
+            (SELECT COUNT(*) from userfollow WHERE followid = '$Uid') AS followerNum;";
+
     $result = mysqli_query($conn, $sql);
 
     if ($result) {

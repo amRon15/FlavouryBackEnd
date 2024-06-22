@@ -23,8 +23,6 @@ function deleteRecipe($conn, $Uid, $Rid){
         $response = array("status"=> "error","message"=> "Failed on deleteing step");
     }
 
-    $conn->close();
-
     return $response;
 };
 

@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $response = array('status' => 'error', 'message' => 'GET method failed');
 }
 
-$conn -> close();
+$conn->close();
 
 header('Content-Type: application/json');
 

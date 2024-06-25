@@ -1,6 +1,6 @@
 <?php
 
-require_once('conn.php');
+require_once ('conn.php');
 
 $conn = connectToDatabase();
 
@@ -34,8 +34,8 @@ function updateRecipe($conn, $Rid, $Uid, $RName, $Category, $CookTime, $Descript
         $decodeIngrendient = json_decode($ingredients, true);
 
         $ingredientStmt = mysqli_prepare($conn, "UPDATE recipeingredient Rid=?, Iid=?, Ingredient=?, Portion=? WHERE Rid=? AND Iid=?");
-        mysqli_stmt_bind_param($ingredientStmt, "iissii", $Rid, $Iid,$ingredient, $portion, $Rid, $Iid);
-        
+        mysqli_stmt_bind_param($ingredientStmt, "iissii", $Rid, $Iid, $ingredient, $portion, $Rid, $Iid);
+
         $Iid = 0;
         foreach ($decodeIngrendient as $item) {
             $Iid++;
@@ -43,11 +43,11 @@ function updateRecipe($conn, $Rid, $Uid, $RName, $Category, $CookTime, $Descript
             $portion = $item['portion'];
             mysqli_stmt_execute($ingredientStmt);
         }
-        
+
         mysqli_stmt_close($ingredientStmt);
     }
 
-    $conn -> close();
+    $conn->close();
 
     return $result;
 }
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $Serving = $_POST['Serving'];
         $Imgid = $_POST['Imgid'];
 
-        $recipeResponse = updateRecipe($conn, $Rid, $Uid, $RName, $Category, $CookTime, $Description, $Serving, $Imgid);  
+        $recipeResponse = updateRecipe($conn, $Rid, $Uid, $RName, $Category, $CookTime, $Description, $Serving, $Imgid);
         if ($recipeResponse) {
             $response = array('status' => 'success', 'message' => 'Recipe update successfully');
         } else {

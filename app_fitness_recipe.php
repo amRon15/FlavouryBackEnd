@@ -6,7 +6,7 @@ $conn = connectToDatabase();
 
 function getFitnessRecipe($conn, $RNo)
 {
-    $sql = "SELECT R.Rid, R.Uid, R.RName, R.Category, R.CookTime, R.Description, R.Likes, R.Serving, R.Imgid, U.Username, U.Iconid FROM recipe AS R, user AS U WHERE R.Uid = U.Uid AND Catergory = Fitness ORDER BY Likes LIMIT $RNo";
+    $sql = "SELECT R.Rid, R.Uid, R.RName, R.Category, R.CookTime, R.Description, R.Likes, R.Serving, R.Imgid, U.Username, U.Iconid FROM recipe AS R, user AS U WHERE R.Uid = U.Uid AND Catergory = 'Fitness' ORDER BY Likes LIMIT $RNo";
     $result = mysqli_query($conn, $sql);
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {

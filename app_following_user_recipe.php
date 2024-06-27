@@ -7,12 +7,12 @@ $conn = connectToDatabase();
 function getFollowingRecipe($conn, $Uid, $RNo)
 {
     $sql = "SELECT R.Rid, R.Uid, R.RName, R.Category, R.CookTime, R.Description, R.Likes, R.Serving, R.Imgid, U.Username, U.Iconid FROM user AS U, recipe AS R, userfollow AS UF WHERE R.Uid = UF.Followid AND R.Uid != UF.Uid AND UF.followid = U.Uid AND UF.Uid = '$Uid'  ORDER BY R.CreateDate LIMIT $RNo";
-    $noFollowerSql = "SELECT * FROM recipe WHERE recipe.Uid != '$Uid' ORDER BY RAND() LIMIT 10;";
+    $noFollowerSql = "SELECT recipe.*, user.Username, user.Iconid FROM recipe, user WHERE recipe.Uid != '$Uid' AND recipe.Uid = user.Uid ORDER BY RAND() LIMIT 10;";
     $result = mysqli_query($conn, $sql);
     $recipe = array();
 
     if (!$result) {
-        $recipe = array("status"=>"error","message"=> "Get result failed");
+        $recipe = array("status" => "error", "message" => "Get result failed");
     }
 
     if ($result->num_rows > 0) {

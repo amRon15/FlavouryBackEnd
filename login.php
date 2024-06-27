@@ -1,12 +1,11 @@
 <?php
 
+require_once ('conn.php');
+
+
 function logIn($Username, $Password)
 {
-    $conn = mysqli_connect("localhost", "root", "", "user");
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+    $conn = connectToDatabase();
 
     $stmt = mysqli_prepare($conn, "SELECT Uid, Password FROM user WHERE Username = ?");
 

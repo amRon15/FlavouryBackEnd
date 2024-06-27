@@ -1,14 +1,13 @@
 <?php
 
-$conn = mysqli_connect("localhost", "root", "", "user");
+require_once ('conn.php');
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+$conn = connectToDatabase();
 
 $Uid = $_GET['Uid'];
 
-function getUserInfo($conn, $Uid) {
+function getUserInfo($conn, $Uid)
+{
     $result = mysqli_query($conn, "SELECT Username, Iconid FROM user WHERE Uid = '$Uid'");
     $userData = mysqli_fetch_assoc($result);
     mysqli_free_result($result);

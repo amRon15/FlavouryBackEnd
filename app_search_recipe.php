@@ -6,8 +6,11 @@ $conn = connectToDatabase();
 
 function getRecipe($conn, $RName, $Uid)
 {
-    $sql = "SELECT recipe.*, user.Username, user.Iconid FROM recipe, user WHERE recipe.Uid = user.Uid AND recipe.Uid != '$Uid' AND recipe.RName LIKE '%$RName%';
-";
+    $sql = "SELECT DISTINCT recipe.*, user.Username, user.Iconid FROM recipe
+    JOIN user ON recipe.Uid = user.Uid
+    LEFT JOIN recipeingredient ON recipe.Rid = recipeingredient.Rid
+    WHERE recipe.Uid != '$Uid'
+    AND (recipe.RName LIKE '%$RName%' OR recipeingredient.Ingredient LIKE '%$RName%');";
     $result = mysqli_query($conn, $sql);
 
     if ($result->num_rows > 0) {

@@ -4,23 +4,24 @@ require_once ('conn.php');
 
 $conn = connectToDatabase();
 
-function getRandomRecipe($conn, $Uid, $RNo)
+function getRandomRecipe($conn, $Uid, $Rid)
 {
-    $RNOs = json_decode($RNo);
-    $sql = "SELECT * from recipe WHERE recipe.Rid NOT IN($RNOs) AND recipe.Uid != $Uid ORDER BY RAND() LIMIT 18";
+    $sql = "SELECT * from recipe WHERE recipe.Rid NOT IN('$Rid') AND recipe.Uid != '$Uid' ORDER BY RAND() LIMIT 18";
     $result = mysqli_query($conn, $sql);
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $recipe[] = $row;
         }
-        return $recipe;
+        mysqli_free_result($result);
+    } else {
+        $recipe = array("status" => "error", "Failed to get from");
     }
-    mysqli_free_result($result);
+    return $recipe;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['Rid'], $_GET['Uid'])) {
-        $Rid = $_GET['Rid'];
+        $Rid = explode(",", urldecode($_GET['Rid']));
         $Uid = $_GET['Uid'];
         $response = getRandomRecipe($conn, $Uid, $RNo);
     } else {

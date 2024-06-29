@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主機： 127.0.0.1
--- 產生時間： 2024-06-23 19:19:27
--- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.2.12
+-- 主機： localhost
+-- 產生時間： 2024 年 06 月 29 日 15:07
+-- 伺服器版本： 10.4.28-MariaDB
+-- PHP 版本： 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,20 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `user`
+-- 資料庫： `Flavoury`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `bookmark`
+--
+
+CREATE TABLE `bookmark` (
+  `Uid` int(10) NOT NULL,
+  `Rid` int(10) NOT NULL,
+  `CreateDate` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -69,7 +81,8 @@ INSERT INTO `recipe` (`Rid`, `Uid`, `RName`, `Category`, `CookTime`, `Descriptio
 (310, 1, 'Japanese sesame oil rice balls', 'Japanese', '10 mins', 'This is a Japanese sesame oil rice balls recipe.', '2024-06-23 20:20:39', 0, '1 Serving', 'e731aa63-d20c-4973-894e-12498fb4a526'),
 (311, 1, 'Chicken breast salad', 'Fitness', '30 mins', 'This is a Chicken breast salad recipe.', '2024-06-23 20:20:39', 0, '1 Serving', '7ba56039-2965-4efc-8ada-54baf5351bf2'),
 (314, 1, 'Yakisoba', 'Japanese', '20 mins', 'This is a Yakisoba recipe.', '2024-06-23 20:20:39', 0, '1 Serving', 'dfc97be2-b362-438f-88fc-c704bfde928a'),
-(319, 1, 'Japanese Tang Yang Chicken', 'Japanese', '40 mins', 'This is a Japanese Tang Yang Chicken recipe.', '2024-06-23 20:20:39', 0, '1 Serving', '46c161c3-f999-4a64-9be4-10f238522cf4');
+(319, 1, 'Japanese Tang Yang Chicken', 'Japanese', '40 mins', 'This is a Japanese Tang Yang Chicken recipe.', '2024-06-23 20:20:39', 0, '1 Serving', '46c161c3-f999-4a64-9be4-10f238522cf4'),
+(323, 22, 'qweqwe', 'Italian', '40 mins', 'qwfqwfqw', '2024-06-25 16:06:42', 0, '3 Serving', '102d60a8-e78c-4466-aee4-64741fd74122');
 
 -- --------------------------------------------------------
 
@@ -150,7 +163,8 @@ INSERT INTO `recipeingredient` (`Rid`, `Iid`, `Ingredient`, `Portion`) VALUES
 (319, 1391, 'soy sauce', '2 tsp'),
 (319, 1392, 'Chicken thighs', '2 peces'),
 (319, 1393, 'Mirin', '1 tsp'),
-(319, 1395, 'high-gluten flour', '2 tsp');
+(319, 1395, 'high-gluten flour', '2 tsp'),
+(323, 1408, 'qfwqwf', 'qwfqwf');
 
 -- --------------------------------------------------------
 
@@ -205,7 +219,8 @@ INSERT INTO `recipestep` (`Rid`, `Sid`, `Step`) VALUES
 (314, 3, 'Put the upper lid into the furnace, enter No.141 to heat, and mix evenly after heating.'),
 (319, 1, 'Marinate chicken thighs with soy sauce and mirin for 15 minutes'),
 (319, 2, 'Mix the flour evenly and dip the chicken in the flour'),
-(319, 3, 'Add oil to a height of about 1 cm in the pan. Heat the oil and fry the chicken until it is slightly brown. Turn over and fry until it turns golden brown and serve on a plate.');
+(319, 3, 'Add oil to a height of about 1 cm in the pan. Heat the oil and fry the chicken until it is slightly brown. Turn over and fry until it turns golden brown and serve on a plate.'),
+(323, 1, 'qwf');
 
 -- --------------------------------------------------------
 
@@ -226,7 +241,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`Uid`, `Username`, `Email`, `Password`, `Iconid`) VALUES
-(1, 'admin', 'admin@flavoury.com', 'admin123', 'f57d0b9b-aed7-4f29-9a5c-7f6c1f197ffb'),
+(1, 'admin', 'admin@flavoury.com', 'admin123', '024917d2-78ef-40aa-ba25-34926e4cb7bc'),
 (11, 'matthew', 'matt@gmail.com', '$2y$10$3JhG22br.Nz6Z0yM7EbmFe0kk/qyB2P.0Sozr3TMcdna8.wRnr4J6', NULL),
 (12, 'here', 'here@gmail.com', '$2y$10$cc6hgPUatUJ06OG8lLLLKugNYPwXQs3Aek3Cy2xGXbvb/wQInJKj2', NULL),
 (14, 'testuser123', 'testuser123@email.com', '$2y$10$92zEuXx0YPYJyu0JFRarJe/2LqXij4z7SauQA5OllAJ5NYnp3EuYS', NULL),
@@ -235,7 +250,12 @@ INSERT INTO `user` (`Uid`, `Username`, `Email`, `Password`, `Iconid`) VALUES
 (19, 'Matthew1', 'Matthew1@gmail.com', '$2y$10$xtrfNHC2WPpKJSTGH7gP0O//W39py8Qjl9rkKa8tzhYHK86FFg0r2', NULL),
 (21, '123', 'test@gmail.com', '$2y$10$tRssoyWxPD9p8qXE2mrTn.ASiDxu1dfwnZ2JtSMAfg16X/L9Kor.O', '024917d2-78ef-40aa-ba25-34926e4cb7bc'),
 (22, 'ron', 'testing@gmail.com', '$2y$10$HCkOtxT/CXeDlGEDy0vZcOecd6YwC0/ohmaxaOhBCTKcL6wX029GC', '469e0fe2-7f7a-40be-820b-619c1ac72bcb'),
-(23, 'matthew2', 'matthew2@gmail.com', '$2y$10$ke0ekhY.R.TQcP9P8B8wbOFt3B6OrFOSDmPwPVtTmI3QJRHHmRhRi', 'fed46a83-3b63-444e-9702-66f131e68f14');
+(23, 'matthew2', 'matthew2@gmail.com', '$2y$10$ke0ekhY.R.TQcP9P8B8wbOFt3B6OrFOSDmPwPVtTmI3QJRHHmRhRi', 'fed46a83-3b63-444e-9702-66f131e68f14'),
+(24, '', '', '$2y$10$nTa4WyVnGaFWAXWizcTWnejNoi8gMo8tyCBNgcLnxse9Jdd.iG9YK', 'e155c87d-9f84-4b5f-bc08-7757ce88ec80'),
+(25, 'r', 'r@gmail.com', '$2y$10$V3LH8FP6y.00bEMk2wcs/ONJJQOnODuvChiQ5fpFp01wJ28a1YPem', 'a797a66a-91df-4e5c-95a7-0919fa99d17f'),
+(26, 'Toby', 'nokhimyu@gmail.com', '$2y$10$g68j8bRP.eZocuULNGzCh.3vPfjpcKwhPDsit/d2BkmLwWDzLfIbG', '1a0e106c-0401-4289-83c5-8018abc8e18b'),
+(27, 'r123', 'ron123@gmail.com', '$2y$10$AtjUh9DSOzuWKBaaUCkKveoqTCVubjwivv7ug5kdjpZVsAyo6IEMG', '76ed0285-c15e-4b5c-878f-73659918444d'),
+(28, 'ron123456', 'ron123456@gmail.com', '$2y$10$kx8fvkRYzyKNY37atuC/9uQrgco3x/RoZ6PIEKCBEESDOBeW57alu', '6c3d51ed-dbef-42bd-9532-f8e7f47411f9');
 
 -- --------------------------------------------------------
 
@@ -255,12 +275,18 @@ CREATE TABLE `userfollow` (
 INSERT INTO `userfollow` (`Uid`, `Followid`) VALUES
 (19, 22),
 (22, 1),
-(22, 11),
 (22, 12);
 
 --
 -- 已傾印資料表的索引
 --
+
+--
+-- 資料表索引 `bookmark`
+--
+ALTER TABLE `bookmark`
+  ADD PRIMARY KEY (`Uid`,`Rid`),
+  ADD KEY `bookmark_fk2` (`Rid`);
 
 --
 -- 資料表索引 `likerecipe`
@@ -312,23 +338,30 @@ ALTER TABLE `userfollow`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `Rid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
+  MODIFY `Rid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `recipeingredient`
 --
 ALTER TABLE `recipeingredient`
-  MODIFY `Iid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1408;
+  MODIFY `Iid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1409;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
-  MODIFY `Uid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Uid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- 已傾印資料表的限制式
 --
+
+--
+-- 資料表的限制式 `bookmark`
+--
+ALTER TABLE `bookmark`
+  ADD CONSTRAINT `bookmark_fk1` FOREIGN KEY (`Uid`) REFERENCES `user` (`Uid`),
+  ADD CONSTRAINT `bookmark_fk2` FOREIGN KEY (`Rid`) REFERENCES `recipe` (`Rid`);
 
 --
 -- 資料表的限制式 `likerecipe`

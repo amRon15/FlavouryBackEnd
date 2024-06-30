@@ -4,9 +4,9 @@ require_once ('conn.php');
 
 $conn = connectToDatabase();
 
-function getPopularRecipe($conn, $RNo)
+function getPopularRecipe($conn, $RNo, $Uid)
 {
-    $sql = "SELECT R.Rid, R.Uid, R.RName, R.Category, R.CookTime, R.Description, R.Likes, R.Serving, R.Imgid, U.Username, U.Iconid FROM recipe as R, user as U WHERE R.Uid = U.Uid ORDER BY Likes LIMIT $RNo";
+    $sql = "SELECT R.Rid, R.Uid, R.RName, R.Category, R.CookTime, R.Description, R.Likes, R.Serving, R.Imgid, U.Username, U.Iconid FROM recipe as R, user as U WHERE R.Uid = U.Uid AND R.Uid NOT IN('$Uid') ORDER BY Likes LIMIT $RNo";
     $result = mysqli_query($conn, $sql);
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -22,9 +22,10 @@ function getPopularRecipe($conn, $RNo)
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['RNo'])) {
+    if (isset($_GET['RNo'], $_GET['Uid'])) {
         $RNo = $_GET['RNo'];
-        $response = getPopularRecipe($conn, $RNo);
+        $Uid = $_GET['Uid'];
+        $response = getPopularRecipe($conn, $RNo, $Uid);
     } else {
         $response = array("status" => "error", "message" => "Failed to GET popular recipe");
     }

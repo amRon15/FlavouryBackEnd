@@ -6,7 +6,7 @@ $conn = connectToDatabase();
 
 function isUserFollowed($conn, $Uid, $Rid)
 {
-    $sql = "SELECT * FROM userfollow WHERE Uid='$Uid' AND Followid='$Rid'";
+    $sql = "SELECT * FROM bookmark WHERE Uid='$Uid' AND Rid='$Rid'";
     $result = mysqli_query($conn, $sql);
     $data = mysqli_fetch_assoc($result);
     return $data;

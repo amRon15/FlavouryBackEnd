@@ -6,7 +6,7 @@ $conn = connectToDatabase();
 
 function getBookmarkRecipe($conn, $Uid)
 {
-    $sql = "SELECT R.* FROM recipe as R, bookmark as B WHERE B.Rid = R.Rid AND Uid='$Uid ORDER BY B.CreateDate";
+    $sql = "SELECT R.*, U.Username, U.Iconid FROM recipe AS R, bookmark AS B, user AS U WHERE B.Rid = R.Rid AND R.Uid = U.Uid AND B.Uid='$Uid' ORDER BY B.CreateDate";
     $result = mysqli_query($conn, $sql);
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {

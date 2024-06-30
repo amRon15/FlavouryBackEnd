@@ -15,8 +15,6 @@ function deleteBookmark($conn, $Uid, $Rid)
         $response = array("status" => "error", "message" => "Delete recipe failed");
     }
 
-    mysqli_free_result($result);
-
     return $response;
 }
 

@@ -14,8 +14,6 @@ function bookmarkRecipe($conn, $Uid, $Rid)
         $response = array("status" => "error", "message" => "Saved recipe failed");
     }
 
-    mysqli_free_result($result);
-
     return $response;
 }
 
@@ -26,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $response = bookmarkRecipe($conn, $Uid, $Rid);
     } else {
-        $response = array('status' => 'error', 'message' => 'Failed to post');
+        $response = array('status' => 'error', 'message' => 'Failed to post bookmark');
     }
 } else {
     $response = array('status' => 'error', 'message' => 'Wrong request method');

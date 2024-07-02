@@ -4,9 +4,9 @@ require_once('conn.php');
 
 $conn=connectToDatabase();
 
-function like($conn, $Uid, $Rid) {
-    $sql = "INSERT INTO likerecipe(Uid, Rid) VALUES ('$Uid', '$Rid')";
-    $sql2 = "UPDATE recipe SET Likes = Likes + 1 WHERE Rid = '$Rid'";
+function unlike($conn, $Uid, $Rid) {
+    $sql = "DELETE FROM likerecipe WHERE Uid='$Uid' AND Rid='$Rid'";
+    $sql2 = "UPDATE recipe SET Likes = Likes - 1 WHERE Rid='$Rid'";
     $result = mysqli_query($conn, $sql);
     $result2 = mysqli_query($conn, $sql2);
 
@@ -22,17 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $Uid = $_POST['Uid'];
         $Rid = $_POST['Rid'];
 
-        $likeResponse = like($conn, $Uid, $Rid);  
+        $likeResponse = unlike($conn, $Uid, $Rid);  
         if ($likeResponse) {
-            $response = array('status' => 'success', 'message' => 'liked!');
+            $response = array('status' => 'success', 'message' => 'Cancel liked!');
         } else {
-            $response = array('status' => 'error', 'message' => 'Failed to like');
+            $response = array('status' => 'error', 'message' => 'Failed to cancel like');
         }
     } else {
         $response = array('status' => 'error', 'message' => 'Incomplete parameters'); 
     }
 } else {
-    $response = array('status' => 'error', 'message' => 'Invaid');
+    $response = array('status' => 'error', 'message' => 'Invalid');
 }
 
 mysqli_close($conn);

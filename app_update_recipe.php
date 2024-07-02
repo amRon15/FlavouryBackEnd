@@ -4,11 +4,6 @@ require_once ('conn.php');
 
 $conn = connectToDatabase();
 
-function prepareData($data)
-{
-    return $data;
-}
-
 function updateRecipe($conn, $Rid, $Uid, $RName, $Category, $CookTime, $Description, $Serving, $Imgid)
 {
 
@@ -21,29 +16,37 @@ function updateRecipe($conn, $Rid, $Uid, $RName, $Category, $CookTime, $Descript
         $decodeSteps = json_decode($steps, true);
         $stepCount = count($decodeSteps);
 
-        $stmtSteps = mysqli_prepare($conn, "UPDATE recipestep SET Rid=?, Sid=?, Step=? WHERE Rid=? AND Sid=?");
-        mysqli_stmt_bind_param($stmtSteps, "iisii", $Rid, $Sid, $Step, $Rid, $Sid);
+        $deleteStep = "DELETE FROM recipestep WHERE Rid='$Rid'";
+        $deleteStepResult = mysqli_query($conn, $deleteStep);
 
-        for ($Sid = 1; $Sid <= $stepCount; $Sid++) {
-            $Step = $decodeSteps[$Sid - 1];
-            mysqli_stmt_execute($stmtSteps);
+        if ($deleteStepResult) {
+            $stmtSteps = mysqli_prepare($conn, "INSERT INTO recipestep (Rid, Sid, Step) VALUES (?, ?, ?)");
+            mysqli_stmt_bind_param($stmtSteps, "iis", $Rid, $sid, $step);
+
+            for ($sid = 1; $sid <= $stepCount; $sid++) {
+                $step = $decodeSteps[$sid - 1];
+                mysqli_stmt_execute($stmtSteps);
+            }
         }
-
         mysqli_stmt_close($stmtSteps);
+
         $ingredients = $_POST['Ingredient'];
         $decodeIngrendient = json_decode($ingredients, true);
 
-        $ingredientStmt = mysqli_prepare($conn, "UPDATE recipeingredient Rid=?, Iid=?, Ingredient=?, Portion=? WHERE Rid=? AND Iid=?");
-        mysqli_stmt_bind_param($ingredientStmt, "iissii", $Rid, $Iid, $ingredient, $portion, $Rid, $Iid);
+        $deleteIngredient = "DELETE FROM recipeingredient WHERE Rid='$Rid'";
+        $deleteIngredientResult = mysqli_query($conn, $deleteIngredient);
 
-        $Iid = 0;
-        foreach ($decodeIngrendient as $item) {
-            $Iid++;
-            $ingredient = $item['ingredient'];
-            $portion = $item['portion'];
-            mysqli_stmt_execute($ingredientStmt);
+
+        if ($deleteIngredientResult) {
+            $ingredientStmt = mysqli_prepare($conn, "INSERT INTO recipeingredient (`Rid`, `Ingredient`, `Portion`) VALUES (?, ?, ?)");
+            mysqli_stmt_bind_param($ingredientStmt, "iss", $Rid, $ingredient, $portion);
+
+            foreach ($decodeIngrendient as $item) {
+                $ingredient = $item['ingredient'];
+                $portion = $item['portion'];
+                mysqli_stmt_execute($ingredientStmt);
+            }
         }
-
         mysqli_stmt_close($ingredientStmt);
     }
 

@@ -1,43 +1,45 @@
 <?php
 
-require_once('conn.php');
+require_once ('conn.php');
 
 $conn = connectToDatabase();
 
-function deleteRecipe($conn, $Uid, $Rid){
+function deleteRecipe($conn, $Uid, $Rid)
+{
     $stepSql = "DELETE FROM recipestep WHERE Rid='$Rid'";
     $ingredientSql = "DELETE FROM recipeingredient WHERE Rid='$Rid'";
     $recipeSql = "DELETE FROM recipe WHERE Rid='$Rid' AND Uid='$Uid'";
 
-    if(mysqli_query($conn, $stepSql)){
-        if(mysqli_query($conn, $ingredientSql)){            
-           if(mysqli_query($conn, $recipeSql)){
-                $response = array("status"=> "success","message"=> "Delete recipe successful");
-           }else{
-            $response = array("status"=> "error","message"=> "Failed to delete recipe");
-           }
-        }else{
-            $response = array("status"=> "error", "message"=>"Failed on deleting ingredient");
+    if (mysqli_query($conn, $stepSql)) {
+        if (mysqli_query($conn, $ingredientSql)) {
+            if (mysqli_query($conn, $recipeSql)) {
+                $response = array("status" => "success", "message" => "Delete recipe successful");
+            } else {
+                $response = array("status" => "error", "message" => "Failed to delete recipe");
+            }
+        } else {
+            $response = array("status" => "error", "message" => "Failed on deleting ingredient");
         }
-    }else{
-        $response = array("status"=> "error","message"=> "Failed on deleteing step");
+    } else {
+        $response = array("status" => "error", "message" => "Failed on deleteing step");
     }
 
     return $response;
-};
+}
+;
 
-if ($_SERVER['REQUEST_METHOD']==="POST") {
-    if (isset($_POST["Uid"], $_POST['$Rid'])) {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    if (isset($_POST['Uid'], $_POST['Rid'])) {
         $Uid = $_POST['Uid'];
         $Rid = $_POST['Rid'];
 
         $response = deleteRecipe($conn, $Uid, $Rid);
 
-    }else{
-        $response = array('status'=> 'error','message'=> 'Failed to start delete recipe');
+    } else {
+        $response = array('status' => 'error', 'message' => 'Failed to start delete recipe');
     }
-}else{
-    $response = array('status'=> 'error','message'=> 'Failed to POST');
+} else {
+    $response = array('status' => 'error', 'message' => 'Failed to POST');
 }
 
 $conn->close();

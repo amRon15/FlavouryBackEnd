@@ -14,7 +14,7 @@ function createRecipe($conn, $Uid, $RName, $Category, $CookTime, $Description, $
 
     $sql = "INSERT INTO recipe (Uid, RName, Category, CookTime, Description, CreateDate, Likes, Serving, Imgid) 
     VALUES ('$Uid', '$RName', '$Category', '$CookTime', '$Description', current_timestamp(), '0', '$Serving', '$Imgid')";
-    
+
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
@@ -33,6 +33,7 @@ function createRecipe($conn, $Uid, $RName, $Category, $CookTime, $Description, $
         }
 
         mysqli_stmt_close($stmtSteps);
+
         $ingredients = $_POST['Ingredient'];
         $decodeIngrendient = json_decode($ingredients, true);
 

@@ -4,9 +4,10 @@ require_once ('conn.php');
 
 $conn = connectToDatabase();
 
-function getStepNIngredient($conn, $Rid) {
+function getStepNIngredient($conn, $Rid)
+{
     $ingredientSql = "SELECT recipeingredient.Ingredient, recipeingredient.Portion from recipeingredient WHERE Rid = '$Rid';";
-    $stepSql= "SELECT recipestep.Step from recipestep WHERE Rid = '$Rid' ORDER BY Sid;";
+    $stepSql = "SELECT recipestep.Step from recipestep WHERE Rid = '$Rid' ORDER BY Sid;";
 
     $stepResult = mysqli_query($conn, $stepSql);
     if ($stepResult->num_rows > 0) {
@@ -24,27 +25,27 @@ function getStepNIngredient($conn, $Rid) {
         mysqli_free_result($ingredientResult);
     }
 
-    if ($step && $ingredient){
-        $response = array("step"=> $step, "ingredient"=> $ingredient);
-    }else{
-        $response = array("status"=> "error", "message"=>"Failed to get step of ingredient from database");
+    if ($step && $ingredient) {
+        $response = array("step" => $step, "ingredient" => $ingredient);
+    } else {
+        $response = array("status" => "error", "message" => "Failed to get step of ingredient from database");
     }
     return $response;
 }
 
 
-if ($_SERVER['REQUEST_METHOD']=="GET"){
-    if (isset( $_GET["Rid"])){
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
+    if (isset($_GET["Rid"])) {
         $Rid = $_GET["Rid"];
         $response = getStepNIngredient($conn, $Rid);
-    }else{
-        $response = array("status"=>"error", "message"=> "Failed to GET step and ingredient");
+    } else {
+        $response = array("status" => "error", "message" => "Failed to GET step and ingredient");
     }
-}else{
-    $response = array("status"=> "error","message"=> "Failed to START GET");
+} else {
+    $response = array("status" => "error", "message" => "Failed to START GET");
 }
 
-$conn -> close();
+$conn->close();
 
 header("Content-Type: application/json");
 

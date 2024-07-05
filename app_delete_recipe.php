@@ -9,10 +9,13 @@ function deleteRecipe($conn, $Uid, $Rid)
     $stepSql = "DELETE FROM recipestep WHERE Rid='$Rid'";
     $ingredientSql = "DELETE FROM recipeingredient WHERE Rid='$Rid'";
     $recipeSql = "DELETE FROM recipe WHERE Rid='$Rid' AND Uid='$Uid'";
+    $deleteBookmark = "DELETE FROM bookmark WHERE Rid='$Rid'";
+    $deleteLike = "DELETE FROM likerecipe WHERE Rid='$Rid'";
 
     if (mysqli_query($conn, $stepSql)) {
         if (mysqli_query($conn, $ingredientSql)) {
-            if (mysqli_query($conn, $recipeSql)) {
+            if (mysqli_query($conn, $deleteBookmark) && mysqli_query($conn, $deleteLike) && mysqli_query($conn, $recipeSql) ) {
+                
                 $response = array("status" => "success", "message" => "Delete recipe successful");
             } else {
                 $response = array("status" => "error", "message" => "Failed to delete recipe");

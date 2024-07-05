@@ -6,10 +6,10 @@ function GetLiked($conn, $Uid)
 {
     $sql = "SELECT 
     L.Rid,
-    L.Uid AS LikerUid,
-    LikerUser.Iconid AS LikerIconId,
-    LikerUser.Username AS LikerUsername,
-    R.Uid AS RecipeOwnerUid,
+    L.Uid AS LUid,
+    LikerUser.Iconid AS LIconid,
+    LikerUser.Username AS LUsername,
+    R.Uid AS Uid,
     R.RName,
     R.Category,
     R.CookTime,
@@ -17,8 +17,8 @@ function GetLiked($conn, $Uid)
     R.Likes,
     R.Serving,
     R.Imgid,
-    OwnerUser.Username AS RecipeOwnerUsername,
-    OwnerUser.Iconid AS RecipeOwnerIconId
+    OwnerUser.Username AS Username,
+    OwnerUser.Iconid AS Iconid
 FROM 
     recipe AS R
 JOIN 
@@ -28,7 +28,7 @@ JOIN
 JOIN 
     user AS LikerUser ON L.Uid = LikerUser.Uid
 WHERE
-    L.Uid = ?";
+    R.Uid = ?";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $Uid);
@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 $conn->close();
 
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 echo json_encode($response);
 ?>
